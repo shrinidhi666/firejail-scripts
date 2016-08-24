@@ -1,0 +1,5 @@
+#!/bin/sh
+uid=`uuidgen`
+tmpdir=/tmp/${uid}
+mkdir -p ${tmpdir}
+/usr/bin/firejail --private-tmp --private=${tmpdir} /usr/bin/firefox $@

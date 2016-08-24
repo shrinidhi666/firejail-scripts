@@ -1,0 +1,17 @@
+#!/bin/sh
+
+uid=`uuidgen`
+tmpdir=/tmp/${uid}
+mkdir -p ${tmpdir}
+mkdir -p ${tmpdir}/.config/google-chrome
+mkdir -p ${HOME}/.config/google-chrome
+mkdir -p ${tmpdir}/.local/share/applications
+sudo mount --bind ${HOME}/.config/google-chrome ${tmpdir}/.config/google-chrome
+sudo mount --bind ${HOME}/.local/share/applications ${tmpdir}/.local/share/applications
+/usr/bin/firejail --private-tmp --private=${tmpdir} /usr/bin/google-chrome-stable $@
+rsync -a ${tmpdir}/Downloads/ ${HOME}/Downloads/
+sudo umount -f ${tmpdir}/.config/google-chrome
+sudo umount -f ${tmpdir}/.local/share/applications
+rm -fr ${tmpdir}
+
+
